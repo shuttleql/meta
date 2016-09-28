@@ -71,7 +71,7 @@ The platform will be entirely web-based. It will consist of two components:
 a club member mobile web based dashboard and an admin desktop based dashboard.
 The platform from the club member's perspective will be a mobile web based app
 since they are more likely to have access to a phone than a laptop when they
-come to session. The admin dashboard will be desktop based since it requires
+come to session. The admin dashboard will be web desktop based since it requires
 heavy user interaction which will be easier on a laptop rather than on a phone.
 
 \subsection{Originality}
@@ -93,18 +93,20 @@ yet been done in existing solutions.
   \item Display current players on courts
   \item Show user match history
   \item Track user match-making-rating in ladder matches
+  \item Registering new club members
 \end{enumerate}
 
 \subsection{User Scenarios}
-There are two different types of users in our system. The first type of user is the badminton club's executives. They would interact with our system by manually selecting which players to appear on the courts. They would also have access to change any user's information such as name, level, category preference. Although there currently is a way for the executives to manually select players to appear on the courts, our system would benefit the executives by allowing them to change user information faster.
+There are two different types of users in our system. The first type of user is the badminton club's executive. They would interact with our system by manually selecting which players to appear on the courts. They would also have access to change any user's information such as name, level, category preference. There currently is a way for the executives to manually select players to appear on the courts, so functional property 3 wouldn't be a new benefit. However, our system would benefit the executives by allowing them to change user information faster.
 
-The second type of user is the normal badminton club players. They would interact with our system by viewing on their phones the current players playing on every court. They would also get notifications when it's their turn to play. Furthermore, they are allowed to view their match history and modify their account information such as name, category preference and contact information. The normal badminton club players would benefit from this by viewing their time to play on their phone rather than crowding around a bulletin board to view this information. In addition, they will be notified when it's their time to play rather than constantly walking up to the bulletin board and checking.
+The second type of user is the normal badminton club player. They would interact with our system by viewing on their phones the current players playing on every court. They would also get notifications when it's their turn to play. Furthermore, they are allowed to view their match history and modify their account information such as name, category preference and contact information. The normal badminton club players would benefit from this by viewing their time to play on their phone rather than crowding around a bulletin board to view this information. In addition, they will be notified when it's their time to play rather than constantly walking up to the bulletin board and checking.
 
 \subsection{Non-functional}
-The two non-functional properties that our system needs to support are dependability and adaptability. Dependability describes the reliability of the system. There should be no crashes or unexpected software failures. Dependability also describes how accurate the software features meets the specifications. The system should behave exactly as the specifications describe without encountering any software bugs.
+The two non-functional properties that our system needs to support are dependability and adaptability. Dependability describes the reliability of the system. There should be no crashes or unexpected software failures. Dependability also describes how accurate the software features meets the specifications. The system should behave exactly as the specifications describe without encountering any software bugs. This property is important because our system needs to be reliable for every badminton club session. It is crucial that every user has correct matches in order to have good user experience.
 
-Adaptability describes how well the system adapts to new requirements to the software. Every time that a new requirement needs to added to the system, the system must be able to function as expected. For example, the match making system should function as expected even if the maximum number of players on a court change.
+Adaptability describes how well the system adapts to new requirements to the software. Every time that a new requirement needs to added to the system, the system must be able to function as expected. For example, the match making system should function as expected even if the maximum number of players on a court change. This property is important to our system because there will be a lot of requirement changes throughout the lifetime of the club.
 
+Efficiency describes the system's performance requirements. The match making algorithm should run fast enough such that matches get generated within seconds. Furthermore, users should get instant notifications once it is their turn to play on the court. This property is important because users need to have maximal playing time and cannot be delayed by performance issues.
 \section{Mockups}
 
 \end{document}
