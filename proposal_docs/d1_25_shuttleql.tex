@@ -65,7 +65,7 @@ unless they hire a coach or ask for critique from a staff member.
 ShuttleQL is an all-in-one badminton club management platform which not only
 automates repetitive administrative tasks but also acts as a communication hub
 between the club executives and its members. It also offers insights and
-analytics into performance of the players in the club.
+analytics into performance of the players in the club. \\
 
 The platform will be entirely web-based. It will consist of two components:
 a club member mobile web based dashboard and an admin desktop web based dashboard.
@@ -95,6 +95,7 @@ yet been done in existing solutions.
   \item Show the match history of each member
   \item Track match-making-rating of club members in ladder matches
   \item Registering new club members
+  \item Track when users attends and leaves the club
 \end{enumerate}
 
 \subsection{User Scenarios}
@@ -104,7 +105,7 @@ actions such as player management, court management, and communication.
 For example, they can override the match making done by system. This will be useful
 in the scenario that a member is scheduled to play on a court but they have to leave
 early, so the executive can simply replace the member that's leaving with a new
-member that isn't playing.
+member that isn't playing. \\
 
 The second type of user is the normal badminton club members. They would interact
 with our system by viewing on their phones the current players playing on each court.
@@ -114,24 +115,29 @@ it's their turn to play. Using notifications eliminates the need for the member
 to constantly check whether they are playing or not.
 
 \subsection{Non-functional}
-The two non-functional properties that our system needs to support are dependability, adaptability, and efficiency.
+The two non-functional properties that our system needs to support are dependability, adaptability, and efficiency. \\
 
 Dependability describes the reliability of the system.
 There should be no crashes or unexpected software failures.
 Dependability also describes how accurate the software features meets the specifications.
 The system should behave exactly as the specifications describe without encountering any software bugs.
 This property is important because our system needs to be reliable for every badminton club session.
-It is crucial that every user has correct matches in order to have good user experience.
+It is crucial that every user has correct matches in order to have good user experience. \\
 
 Adaptability describes how well the system adapts to new requirements to the software.
 Every time that a new requirement needs to added to the system, the system must be able to function as expected.
 For example, the match making system should function as expected even if the maximum number of players on a court change.
-This property is important to our system because there will be a lot of requirement changes throughout the lifetime of the club.
+This property is important to our system because there will be a lot of requirement changes throughout the lifetime of the club. \\
 
 Efficiency describes the system's performance requirements.
 The match making algorithm should run fast enough such that matches get generated within seconds.
 Furthermore, users should get instant notifications once it is their turn to play on the court.
-This property is important because users need to have maximal playing time and cannot be delayed by performance issues.
+This property is important because users need to have maximal playing time and cannot be delayed by performance issues. \\
+
+Scalability describes how easy it is to add new features to the system and how maintainable the system becomes after. The system needs to be modular, have extensive documents and separation of concerns.
+This property is important because more features will most likely need to be added in the future by contributors outside of our group. \\
+
+\newpage
 
 \section{Mockups}
 \includegraphics[width=15cm]{combined}
