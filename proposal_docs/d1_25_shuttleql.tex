@@ -22,7 +22,7 @@
 \textsc{\Large Section 001}\\[1.5cm]
 
 \HRule \\[0.75cm]
-{ \Huge \bfseries Project Proposal}\\[0.5cm]
+{ \Huge \bfseries Project Proposal (Revised)}\\[0.5cm]
 \HRule \\[2cm]
 
 \Large Group 25 \\  [8cm]
@@ -87,15 +87,15 @@ yet been done in existing solutions.
 \section{Project Properties}
 \subsection{Functional}
 \begin{enumerate}
-  \item Match making algorithm that allocates players to open badminton courts
-  \item Send notifications to users once they are able to play
-  \item Allow executives to broadcast announcements to users
-  \item Allow executives to override the match making algorithm
-  \item Display current players that should be on each court
-  \item Show the match history of each member
-  \item Track match-making-rating of club members in ladder matches
   \item Registering new club members
-  \item Track when users attends and leaves the club
+  \item Allowing users to check-in/check-out of a club session
+  \item Match making algorithm that allocates players to open badminton courts
+  \item Display current players that should be on each court
+  \item Allow executives to override the match making algorithm
+  \item (Bonus): Send notifications to users once they are able to play
+  \item (Bonus): Allow executives to broadcast announcements to users
+  \item (Bonus): Show the match history of each member
+  \item (Bonus): Track match-making-rating of club members in ladder matches
 \end{enumerate}
 
 \subsection{User Scenarios}
@@ -115,27 +115,38 @@ it's their turn to play. Using notifications eliminates the need for the member
 to constantly check whether they are playing or not.
 
 \subsection{Non-functional}
-The two non-functional properties that our system needs to support are dependability, adaptability, and efficiency. \\
+The two mandatory non-functional properties that our system needs to support are dependability and portability.
+The other non-functional properties are bonuses.
 
+\subsubsection{Dependability}
 Dependability describes the reliability of the system.
-There should be no crashes or unexpected software failures.
-Dependability also describes how accurate the software features meets the specifications.
+It also describes how accurate the software features meets the specifications.
 The system should behave exactly as the specifications describe without encountering any software bugs.
 This property is important because our system needs to be reliable for every badminton club session.
 It is crucial that every user has correct matches in order to have good user experience. \\
+\textbf{Requirement:} The system must have an uptime of 95\% or better for every 24 hours.
 
-Adaptability describes how well the system adapts to new requirements to the software.
-Every time that a new requirement needs to added to the system, the system must be able to function as expected.
-For example, the match making system should function as expected even if the maximum number of players on a court change.
-This property is important to our system because there will be a lot of requirement changes throughout the lifetime of the club. \\
+\subsubsection{Portability}
+Portability refers to the ability of a system to execute on multiple platforms while
+retaining its functional and non-functional properties. \\
+\textbf{Requirement:} The user-facing interface should, at a minimum, satisfy functional properties 1-4 on
+a number of different platforms and browsers. For mobile phones, it should support Chrome on Android and Safari on iOS.
+On laptops/desktops, it should support both Chrome and Safari.
 
+\subsubsection{(Bonus) Efficiency}
 Efficiency describes the system's performance requirements.
-The match making algorithm should run fast enough such that matches get generated within seconds.
-Furthermore, users should get instant notifications once it is their turn to play on the court.
-This property is important because users need to have maximal playing time and cannot be delayed by performance issues. \\
+The match making algorithm should run as fast as fast as possible to minimize
+the time it takes to generate a new set of matches. \\
+\textbf{Requirement:} The match-making algorithm should take less than 5 seconds to complete given a pool
+of 100 badminton players.
 
-Scalability describes how easy it is to add new features to the system and how maintainable the system becomes after. The system needs to be modular, have extensive documents and separation of concerns.
-This property is important because more features will most likely need to be added in the future by contributors outside of our group. \\
+\subsubsection{(Bonus) Evolvability}
+Adaptability describes how well the system adapts to new requirements to the software.
+Every time that a new requirement is introduced into one component of the system,
+other components of the system should still function correctly without needing intervention.
+This property is important to our system since the requirements may change based on the badminton club over time. \\
+\textbf{Requirement:} The system should be adaptable to clubs with different number of courts and different game types
+for each court.
 
 \newpage
 
