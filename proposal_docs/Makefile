@@ -1,4 +1,8 @@
-all:
+d1:
 	pdflatex d1_25_shuttleql.tex && rm d1_25_shuttleql.aux d1_25_shuttleql.log
+
+d2:
+	pdflatex d2_25_shuttleql.tex && rm d2_25_shuttleql.aux d2_25_shuttleql.log
+
 clean:
-	rm d1_25_shuttleql.pdf d1_25_shuttleql.aux d1_25_shuttleql.log
+	rm *.pdf *.aux *.log
