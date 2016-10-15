@@ -8,6 +8,7 @@
 - Salted Password
 - Level
 - Preference: singles/doubles
+- IsActive
 
 ## Session Schema
 
