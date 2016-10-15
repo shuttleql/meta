@@ -2,6 +2,7 @@
 
 - Unique ID
 - Name
+- IsAdmin
 - Gender
 - Email
 - Salted Password
