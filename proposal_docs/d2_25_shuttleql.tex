@@ -38,7 +38,7 @@
 
 \section{Metadata}
 \textbf{Project:} ShuttleQL (Shuttle Queueing Logistics) \\
-\textbf{Team Name:} Baddie Bois \\
+\textbf{Team Name:} Baddie Boys \\
 \textbf{Team Members:}
 \begin{itemize}
   \item Cheng Dong (c9dong)
@@ -48,12 +48,15 @@
 \end{itemize}
 
 \section{Demo Summary}
+The demo will include user registration, user login and viewing matches. There will be three different views that will be presented: registration view, login view and matches view. In the registration view, an admin can register a user by entering their email and a temporary password inside a form. In the login view, users can then login to the application via their email and password using a form. After successful login, users will be able to see the matches view. In the matches view, a list of matches that are currently happening and the players in each respective match will be displayed. 
+The table below shows which functionalities will be real and simulated.
 \begin{center}
   \begin{tabular}{ l | c | c }
     Functionality & Real & Simulated \\
     \hline
     Registration & \checkmark & \\
-    Matchmaking &  & \checkmark \\
+    Login &  & \checkmark \\
+    Matches and Matchmaking &  & \checkmark \\
   \end{tabular}
 \end{center}
 
@@ -61,17 +64,30 @@
 
 \subsection{Current Progress}
 The following is a list of what we accomplished:
-\blindlist{itemize}[3]
-% TODO: % of work done?
+\begin{itemize}
+  \item Created basic functionality for each component in our architecture
+  \item Working functionality of user registration for both front-end and back-end
+  \item Finalized database schema and data models in the back-end
+  \item Finalized APIs between the client and API-gateway and internal services
+\end{itemize}
 
 \subsection{Difficulties Faced}
-\blindlist{itemize}[3]
+\begin{itemize}
+  \item A lot of time spent on learning a new front-end and back-end framework
+  \item Choosing a date to demo to the UW badminton club
+\end{itemize}
 
 \subsection{One Month Development Roadmap}
-\blindlist{itemize}[3]
+\begin{itemize}
+  \item Oct 17 - 23: Implement user login in the back-end and security access. Finalize mocks for the player and admin panel UI.
+  \item Oct 24 - 30: Implement UI mocks on the client and start on the match making algorithm and broadcasting notifications.
+  \item Oct 31 - Nov 6: Finish implementing match-making service and notification service.
+  \item Nov 7 - 13: Testing and preparing to demo beta-version to the UW badminton club
+\end{itemize}
 
 \newpage
 
 \section{Architecture Diagram}
+\includegraphics[width=18cm]{uml_diagram}
 
 \end{document}
