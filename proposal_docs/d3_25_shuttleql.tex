@@ -49,9 +49,62 @@
 
 \section{Demo Summary}
 % detail the functionality your app embodies
+The demo of ShuttleQL will demonstrate all of the functional and non-functional properties listed below and show a general workflow of the application.
+
+\subsection{Functional properties}
+\begin{enumerate}
+  \item Registering new club members
+  \item Allowing players to check-in/check-out of a club session
+  \item Match making algorithm that allocates players to open badminton courts
+  \item Display current players that should be on each court
+  \item Allow executives to override the match making algorithm
+  \item (Bonus) Allow executives to broadcast announcements to players
+\end{enumerate}
+
+\subsection{Non-functional properties}
+\begin{enumerate}
+  \item The user-facing interface should satisfy all functional properties on Chrome and Safari
+  \item (Bonus) The system should be adaptable to clubs with different number of courts and different game types for each court.
+  \item (Bonus) The match-making algorithm should take less than 5 seconds to complete given a pool
+of 100 badminton players.
+\end{enumerate}
+
+There are two types of users using ShuttleQL: Players and Club Admins. The following detailed functionalities of the application for each type of user will be demonstrated.
+\subsection{Player functionalities}
+\begin{enumerate}
+  \item View personal profile information
+  \item View status
+  \item View announcements
+  \item View current matches
+\end{enumerate} 
+
+\subsection{Admin functionalities}
+\begin{enumerate}
+  \item Registering, editing and removing players
+  \item Create and end club sessions
+  \item Check-in and check-out players of club sessions
+  \item Start and end match-making algorithm
+  \item View current players that should be on each court
+  \item Manually override the match making algorithm
+  \item Broadcast announcements to players
+\end{enumerate}
+
+The following workflow shows how users will interact with ShuttleQL in a typical badminton club session.
+\subsection{Workflow}
+\begin{enumerate}
+  \item Both players and admin logins to their respective accounts
+  \item Admin create a club session and start checking in players
+  \item Admin starts match-making task to generate matches
+  \item Both players and admin view matches
+  \item Matches will be automatically generated every 15 minutes
+  \item Admin can manually override any matches they see fit
+  \item Admin can broadcast any messages to all players
+  \item At the end, admin ends the club session
+\end{enumerate}
 
 \section{Status Report}
 % list what proposed functionality remains unimplemented and why it was dropped.
-% The intent ofthis report isn't to punish groups who did not implement everything they proposed but rather to help us understand the challenges your group faced while working on your project.
+% The intent of this report isn't to punish groups who did not implement everything they proposed but rather to help us understand the challenges your group faced while working on your project.
+All of the required functional properties were implemented. Even one of the bonus functional properties were implemented which was real-time announcements broadcasting. The only non-functional property that was not satisfied was dependability. Our non-functional property required that the system must have an uptime of 95\% or better for every 24 hours. The application, however, isn't deployed and currently only runs locally. The non-functional property was dropped because it costed money monthly to maintain the servers. We didn't account that deployment platforms such as Heroku didn't support sockets well under their free service. We need to pay in order to upgrade to support socket features. Therefore, we didn't want to pay this fee until the UW badminton club started using ShuttleQL. The next steps of ShuttleQL is to demo to the UW badminton club.
 
 \end{document}
