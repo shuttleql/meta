@@ -41,19 +41,52 @@
   \item Di Sen Lu (dslu)
 \end{itemize}
 
+\section{Introduction}
+Around the world, recreational badminton clubs host regular sessions at set locations for club members to drop in and play at. Traditionally, many of the tasks related to the operation of the club are done manually with the combined effort of the club's executive staff. Sometimes these tasks are repetitive and tedious and may require a execs full attention for a significant period of time. Examples of these tasks include:
+\begin{itemize}
+\item Registering new club members
+\item Checking in and out members during a club session
+\item Scheduling members into courts for each rotation
+\end{itemize}
+ShuttleQL is an all-in-one badminton club management platform that aims to automate many of the tasks above. The web-based platform consists of two main components:
+\begin{enumerate}
+\item Mobile web-based dashboard for the club members
+\item Desktop web-based administration panel
+\end{enumerate}
+The online platform will act as a communication hub to increase transparency between the execs and members as well, notifying members of particular events in real time.
+
 \newpage
 \section{Architectural description}
 
 \subsection{Overview}
+At a high-level, the architectural components can be split into two groups: online and offline. The offline components consist of the matchmaker and pigeon, while online components make up the rest. The online components can be further divided into four different layers, as shown in the table below \\
+\begin{tabular}{ | l | l | }
+\hline
+Layer & Component(s) \\
+\hline
+A & Player dashboard, Admin panel \\
+B & API Gateway \\
+C & User, Session, Announcement, Match service \\
+D & User, Session, Announcement, Match database \\
+\hline
+\end{tabular} \\ \\
+The online components make up a modified version of the three-tiered pattern. The front, middle, and back tiers are represented by layers A, C, and D respectively. Layer A contains the two web-applications that provide the user interfaces for the players and admins. Layer C contains the application functionality, separated based on the kind of data that is being operated on as described by the service name. Layer D contains the application data access and storage capabilities in the form of different databases where each database contains a specific category of data, which maps 1:1 with a service in layer C. In terms of communication, layer A communicates with C through HTTP and C with D through an FRM called Slick.
+% TODO: Advantages
+The responsibility of layer B will be explained later when the report focuses on the architecture of the API gateway.
+
+The online components also make up a layered style. If we assume the layers A to D are stacked from top to bottom,
+then a layer acts as a server to the layers above and acts as a client to the layers below. For example, layer B, the API gateway provides a client API for the web-applications (layer A) to use. In addition, layer B is a client to layer C, which exposes an internal API for the API gateway to use. The advantage to this pattern is reuse in the sense that a change to a particular layer means that you only have to modify at most two layers, the layer directly above and below.
+
+A client-server style is exhibited between layers A and B. Layer B, the API gateway acts as a server that provides a set of user-facing client APIs. It doesn't know the number or identities of clients that will use its API. On the other hand, layer A, the web applications act as the client in the sense that it needs to know the explicit identity of the server in order to utilize the server's provided API.
 
 \subsubsection{Player and Administrator Frontend}
 The Player and Administrator Frontend are the two interfaces where users can interact with the ShuttleQL. The Player frontend provides users with the ability to view current games, whereas the Admin frontend provides club executives with the ability to start club sessions, manage users, and manage court usage. The main patterns used in these implementations are Flux architecture for data flow in the front-end, as well as multi-layered architecture when communicating with the API gateway. The Flux architecture consists of actions, views, reducers, and stores. It is a one-way data flow pattern where views dispatch actions, which are handled by the reducers in order to update the store, and the changes are propagated back to the views from top to bottom. In the views component, several modules are depended on for rendering. Material UI provides aesthetically pleasing components for the user interface, Router handles the rendering logic based on the URL supplied by the client, and React provides HTML rendering logic. In the Actions component, Axios is a module used to make HTTP requests, and Token Manager is an internal module used to authorize outgoing HTTP requests. Finally, there is a Socket.io client that listens to broadcasts from Pigeon.
 
 \subsubsection{API Gateway}
-
+The API Gateway serves as the interface that the frontend interacts with the backend services. The individual Scala services do not interact with each other, but with the API Gateway. This ensures a microservice architecture and will be explained further in the design.
 
 \subsubsection{User, Session, and Announcement Service}
-
+The User, Session and Announcement services are the Scala services that interact with the databases. Each service is a standalone Scala application and has its own Postgres database to preserve a microservice architecture. The services communicate with the database via Slick, an ORM library for Scala.
 
 \subsubsection{Pigeon}
 In a nutshell, Pigeon is the component that notifies interested parties about events that happen in ShuttleQL. For the MVP implementation, Pigeon is used to notify front-end clients when updates to the backend models occur, and when a new announcment is created by a club administrator. It is composed of two parts: the Amazon SNS portion, and the Pigeon server. The services send publish requests to Amazon SNS when interesting events occurs, to which Amazon SNS notifies Pigeon Server in response. Then, Pigeon Server broadcasts the message to all its subscribers (Admin Frontend and Player Frontend).
@@ -172,11 +205,11 @@ Below is a table that maps each component/class to a list of 1 or more team memb
 \end{tabular} \\ \\
 
 In the table below, the total number of hours worked per team member is shown across the entire system. \\
-\begin{tabular}{ | l | c | c | l |  }
+\begin{tabular}{ | l | l | }
 	\hline
     Member & Total hours worked \\
     \hline
-Clement Hoang & 86 \\
+	Clement Hoang & 86 \\
 	David (Cheng) Dong & 48.5 \\
 	Jason (Zhaotian) Fang & 89 \\
 	Tony (Di Sen) Lu & 22.5 \\
