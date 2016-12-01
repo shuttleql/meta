@@ -7,5 +7,8 @@ d2:
 d3:
 	pdflatex d3_25_shuttleql.tex && rm d3_25_shuttleql.aux d3_25_shuttleql.log
 
+d4:
+	pdflatex d4_25_shuttleql.tex && rm d4_25_shuttleql.aux d4_25_shuttleql.log
+
 clean:
 	rm *.pdf *.aux *.log

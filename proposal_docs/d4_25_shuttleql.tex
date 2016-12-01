@@ -1,0 +1,186 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz, amsmath, amssymb, gensymb}
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\center
+
+\textsc{\huge University of Waterloo}\\[3cm]
+\textsc{\LARGE SE464}\\[1.5cm]
+\textsc{\Large Section 001}\\[1.5cm]
+
+\HRule \\[0.75cm]
+{ \Huge \bfseries Deliverable 4: Project Architecture \& Design}\\[0.5cm]
+\HRule \\[2cm]
+
+\Large Group 25 \\  [8cm]
+
+{\Large \today}\\
+
+\vfill
+\end{titlepage}
+
+\section{Metadata}
+\textbf{Project:} ShuttleQL (Shuttle Queueing Logistics) \\
+\textbf{Team Name:} Baddie Boys \\
+\textbf{Team Members:}
+\begin{itemize}
+  \item Cheng Dong (c9dong)
+  \item Zhaotian Fang (z23fang)
+  \item Clement Hoang (c8hoang)
+  \item Di Sen Lu (dslu)
+\end{itemize}
+
+\newpage
+\section{Architectural description}
+
+\subsection{Overview}
+
+\subsubsection{Player and Administrator Frontend}
+The Player and Administrator Frontend are the two interfaces where users can interact with the ShuttleQL. The Player frontend provides users with the ability to view current games, whereas the Admin frontend provides club executives with the ability to start club sessions, manage users, and manage court usage. The main patterns used in these implementations are Flux architecture for data flow in the front-end, as well as multi-layered architecture when communicating with the API gateway. The Flux architecture consists of actions, views, reducers, and stores. It is a one-way data flow pattern where views dispatch actions, which are handled by the reducers in order to update the store, and the changes are propagated back to the views from top to bottom. In the views component, several modules are depended on for rendering. Material UI provides aesthetically pleasing components for the user interface, Router handles the rendering logic based on the URL supplied by the client, and React provides HTML rendering logic. In the Actions component, Axios is a module used to make HTTP requests, and Token Manager is an internal module used to authorize outgoing HTTP requests. Finally, there is a Socket.io client that listens to broadcasts from Pigeon.
+
+\subsubsection{API Gateway}
+
+
+\subsubsection{User, Session, and Announcement Service}
+
+
+\subsubsection{Pigeon}
+In a nutshell, Pigeon is the component that notifies interested parties about events that happen in ShuttleQL. For the MVP implementation, Pigeon is used to notify front-end clients when updates to the backend models occur, and when a new announcment is created by a club administrator. It is composed of two parts: the Amazon SNS portion, and the Pigeon server. The services send publish requests to Amazon SNS when interesting events occurs, to which Amazon SNS notifies Pigeon Server in response. Then, Pigeon Server broadcasts the message to all its subscribers (Admin Frontend and Player Frontend).
+
+\subsection{Functional Properties}
+From deliverable 1, 5 mandatory and 4 bonus functional properties were mentioned. The system satisfies all 5 mandatory functional properties and 1 of the 4 bonus functional properties.
+
+\subsubsection{Mandatory}
+Three out of the five mandatory functional properties describe admin-level actions such as registering new club members, checking in/out players, and overriding the matchmaking algorithm. They are all accomplished in a similar way by the system. The admin-panel component on the client-side provides a user interface for the admin to perform these actions. Each action is then proxied through the API gateway server. From that point, depending on the data that's being changed, the gateway will delegate to a specific internal service. For example, registering new club members means that the gateway will delegate to user service in order to persis a new user into the database.
+
+Another functional property is that the system also allows the current matches to be displayed for the user to see. This information needs to be surfaced on both the admin panel and player dashboard. Therefore, it needs to be able to call an API to fetch the matches, which API gateway provides. Internally, API gateway delegates to game service to actually fetch the matches. Once the results are returned to the client, the data is rendered in a visually pleasing manner for the user to see.
+
+Finally, the last mandatory functional property is that the system must have a match making algorithm that allocates players to open badminton courts. The matchmaking background process in the system architecture has exactly this responsibility. It will maintain a queue of players and periodically rotate current players off and allocate players that have been waiting onto the badminton courts. The current state of the queue and the mapping of players to courts is exposed to the internal game service only.
+
+\subsubsection{Bonus}
+One bonus functional property that was implemented was the ability for executives to broadcast announcements to users. The system accomplishes this by first providing the UI for the admin to construct an announcement and broadcast it. In addition, the system handles transferring the announcement data from the client through the API gateway and to the internal announcement service, where it'll be persisted. In addition, the system supports real-time message passing to the client through the component pigeon. Therefore, once the announcement is received by the internal service, it can leverage pigeon to send the announcement in real time to all connected players where it will be shown by the player dashboard UI.
+
+A bonus functional property that wasn't implemented is the ability for admins to send notifications to users once they are able to play. This was never followed through since the system instead supports showing the user's status in the session that updates in real time. This feature accomplishes the problem that the original functional property was trying to solve and more.
+
+The other bonus functional properties, the ability to show a match history and to track match-making-rating of club members were dropped since the level of effort needed to extend the system architecture to support these properties was not realistic given the time constraints of the group.
+
+One functional property that was implemented which wasn't mentioned is the ability to keep the client user interfaces updated in real time. This is supported by the system through pigeon, which would notify connected clients that certain data is stale and must be updated through a fresh fetch from the server. The need to support this property is because data such as a user's status in a session, and the current set of games can all change without interaction from the user. Since there's never a need for the user to trigger a refresh, the system must do the job for the user instead.
+
+\subsection{Non-functional Properties}
+\subsubsection{Dependability}
+The first of the two mandatory non-functional properties that have to be met is dependability, which describes the reliability of the system. This property is satisfied if the system can maintain an uptime of 95\% or better for every 24 hours. This is accomplished by deploying all backend services using Ngrok. This third-party service not only deploys any backend service but also provides a user interface as a terminal or web app that exposes crucial metrics related to the service such as uptime, server load, etc. Therefore, we're able to monitor the uptime of all deployed services to ensure that the property is met.
+
+\subsubsection{Portability}
+Portability is the second mandatory non-functional property, which describes the ability of a system to execute on multiple platforms while retaining its functional and non-functional properties. The concrete requirement is for the system to satisfy the following functional properties on both Chrome and Safari for mobile and desktop platforms: player registration, player checkin/checkout, matchmaking, and displaying the current matches. The frontend architecture for the admin panel and player dashboard supports the property through its lack of reliance on Javascript APIs with strict browser support. In addition, the architecture is careful to include only external dependencies that have good browser support across multiple platforms (i.e. material-ui).
+
+\subsubsection{Efficiency}
+Efficiency is the first of two bonus non-functional properties, which describes the system's performance. Since system performance is a very general requirement, it was narrowed down to the performance of the matchmaking algorithm. More specifically, the requirement is that the algorithm should run in less than 5 seconds given a pool of 100 badminton players. In order to maximize the efficiency of the algorithm, it is important to decouple the component away from any services so the component can be run in the background on a separate machine, where the hardware specs of the machine can be upgraded to meet the performance requirements of the algorithm. In addition, the algorithm is structured to fetch all needed data before the algorithm begins in order to prevent the need to make networks calls in the middle of the algorithm, which hinders its performance.
+
+\subsubsection{Evolvability}
+Evolvability is the last bonus non-functional property, which describes how well the system adapts to new requirements to the software. In order to make the requirement more relevant based on the context of the product, the requirement was narrowed down to if the system supports badminton clubs with different number of courts and different game types for each court. In order to fufill this requirement, the matchmaking algorithm is designed to be agnostic to the number of courts and their types. In addition, the information about the badminton club is stored in a configuration file, decoupled from the application code. This allows easy modification by people without needing to understand the system's components and code.
+
+\section{System design}
+
+\subsection{Player and Administrator Frontend}
+
+\subsection{API Gateway}
+The API Gateway is written in Node.js using the Koa framework. Node.js was chosen because the purpose of API Gateway is not to do complex calculations, but rather to aggregate and/or proxy calls to the internal micro-services. The benefit of Koa is that performing asynchronous call chains is made relatively simple (for HTTP call aggregation). Also, since the heavy computations are done in the micro-services, then the lower performance of Node.js when compared to a compiled language is insignificant, and still suitable for the application.
+% TODO: get david to talk about some security/auth stuff here?
+
+\subsection{Micro-services}
+The announcement, user, game, and session services are all written in Scala using the Scalatra framework. Looking into the codebase for the aforementioned services, there will be files with recurring patterns in their naming:
+
+\begin{itemize}
+  \item $x$Servlet.scala
+  \item $x$DAO.scala
+  \item $x$.scala
+\end{itemize}
+
+where $x$ approximately refers to the name of the service or model of interest. For example, in the user service, the following files will be present:
+
+\begin{itemize}
+  \item \_UserServlet.scala
+  \item UsersDAO.scala
+  \item Users.scala
+\end{itemize}
+
+-technologies used
+
+\subsection{MatchMaker}
+The MatchMaker component is a part of Game Service, which is written in Scala. Scala was chosen because it allows algorithms to be written in a mathematically concise style. In the matchmaking algorithm, a list of checked in players and the court configuration is provided as input, and the output is a JSON representation of the players that will be playing on each court as well as the waiting list. The data structures used in this algorithm is Scala's Mutable.Queue to represent the waiting list, which will be denoted as $queue$, as well as Scala's List to store a list of matches, which will be denoted as $matches$. First, the algorithm calculates the amount of players that need to be placed on the courts to fill up the available court space. This can be calculated via the configuration file: $numDoublesCourts * doublesSize + numSinglesCourts * singlesSize$. Next, the calculated amount of players is popped off from the beginning of the queue, grouped by their levels, and scrambled within their groupings, which will be denoted as $selection$. A random index of $selection$ is chosen, and starting from the two outer edges of $selection$, the algorithm iterates through each element towards the chosen index, and assigns court groupings in that order. First, the doubles courts are filled up, and then, the singles courts are filled up. In the first iteration of the algorithm, this portion was done from left to right, but it was observed that there was a bias for a certain level of player to be placed into the singles courts. This was adjusted for by including the random index mentioned above. Therefore, the output of the algorithm would be matches with players that are in similar level ranges. An optimization for this in the future would be to include player preference into the algorithm, since that is currently unaccounted for.
+
+% get jason to talk about swapping/overriding
+
+\subsection{Gandalf}
+-talk about HMAC, JWT etc. here
+
+\subsection{Pigeon}
+Pigeon Server is written in Node.js with Express and Socket.io. The choice in language and frameworks is because ShuttleQL required the ability to send push notifications to the front end clients. The only methods to achieve this are by long polling or websockets. The websocket approach was chosen as it has wide browser support, and prevents the need of constantly closing and re-opening connections. Consequently, Socket.io was chosen since it is one of the most supported libraries for websocket integration, and has good support for Node with Express. Pigeon Server is notified by Amazon SNS when actions occur in the micro-services. Amazon SNS was used because it provides an abstraction as well as a security layer for notifying Pigeon of events that happen. Without Amazon SNS, a custom security layer would have to be written for Pigeon.
+
+\subsection{System Analysis}
+
+\subsubsection{Coupling}
+
+\subsubsection{Adaptability to Future Requirements}
+
+
+\newpage
+\section{Participation Journal}
+Let $C,D,J,T$ represent that Clement Hoang, David (Cheng) Dong, Jason (Zhaotian) Fang, or Tony (Di Sen) Lu worked on a particular component/class.
+
+Below is a table that maps each component/class to a list of 1 or more team members that worked on the component/class: \\
+\begin{tabular}{ | l | c | c | l |  }
+	\hline
+    Component & Sub Component & Team Members & Total hours worked \\
+    \hline
+	Admin Panel & & C,J & 75 \\
+	\hline
+	Player Dashboard & & D,J & 50  \\
+	\hline
+	API Gateway & API & C,D,J,T & 10 \\
+	& JWT & D & 15 \\
+	\hline
+	Gandalf & & D & 6  \\
+	\hline
+	User service & & C & 20 \\
+	User database & & C & 4 \\
+	\hline
+	Session service & & T & 17 \\
+	Session database & & T & 3 \\
+	\hline
+	Game service & & J,T & 7 \\
+	Game database & & J & 3 \\
+	\hline
+	Announcement service & & J & 3 \\
+	Announcement database & & J & 1 \\
+	\hline
+	Matchmaking & & C,J & 20 \\
+	\hline
+	Pigeon & & C & 12 \\
+    \hline
+\end{tabular} \\ \\
+
+In the table below, the total number of hours worked per team member is shown across the entire system. \\
+\begin{tabular}{ | l | c | c | l |  }
+	\hline
+    Member & Total hours worked \\
+    \hline
+Clement Hoang & 86 \\
+	David (Cheng) Dong & 48.5 \\
+	Jason (Zhaotian) Fang & 89 \\
+	Tony (Di Sen) Lu & 22.5 \\
+    \hline
+\end{tabular}
+
+\end{document}
