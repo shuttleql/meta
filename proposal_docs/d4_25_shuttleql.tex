@@ -7,6 +7,8 @@
 \usepackage[english]{babel}
 \usepackage{blindtext}
 \usepackage[margin=1in]{geometry}
+\usepackage[final]{pdfpages}
+\setboolean{@twoside}{false}
 
 \begin{document}
 
@@ -132,6 +134,9 @@ Efficiency is the first of two bonus non-functional properties, which describes 
 \subsubsection{Evolvability}
 Evolvability is the last bonus non-functional property, which describes how well the system adapts to new requirements to the software. In order to make the requirement more relevant based on the context of the product, the requirement was narrowed down to if the system supports badminton clubs with different number of courts and different game types for each court. In order to fufill this requirement, the matchmaking algorithm is designed to be agnostic to the number of courts and their types. In addition, the information about the badminton club is stored in a configuration file, decoupled from the application code. This allows easy modification by people without needing to understand the system's components and code.
 
+\newpage
+\includepdf[pages=-]{component_diagrams/d4_25_component_diagram.pdf}
+
 \section{System design}
 
 \subsection{Player and Administrator Frontend}
@@ -204,6 +209,9 @@ Lastly, the UW badminton club could request for the support of tournaments in th
 
 In summary, most of the changes that the system may encounter due to rules established by the UW badminton club can be supported except for large features that require work between different services which would require more development time. The micro-service architecture itself does not need to change because as the application grows and more features are added, the separation of concerns will be crucial for more agile development. This architecture only inhibits development speed in the beginning of the project because of the lack of scope. However, as the project scales and the development team grows, the micro-service architecture will be more suitable.
 
+\newpage
+\includepdf[pages=-]{class_diagrams/d4_25_class_diagram.pdf}
+
 
 \newpage
 \section{Participation Journal}
@@ -226,8 +234,8 @@ Below is a table that maps each component/class to a list of 1 or more team memb
 	User service & & C & 20 \\
 	User database & & C & 4 \\
 	\hline
-	Session service & & T & 17 \\
-	Session database & & T & 3 \\
+	Session service & & T & 23 \\
+	Session database & & T & 15 \\
 	\hline
 	Game service & & J,T & 7 \\
 	Game database & & J & 3 \\
@@ -246,10 +254,10 @@ In the table below, the total number of hours worked per team member is shown ac
 	\hline
     Member & Total hours worked \\
     \hline
-	Clement Hoang & 86 \\
-	David (Cheng) Dong & 48.5 \\
-	Jason (Zhaotian) Fang & 89 \\
-	Tony (Di Sen) Lu & 22.5 \\
+  	Clement Hoang & 86 \\
+  	David (Cheng) Dong & 48.5 \\
+	  Jason (Zhaotian) Fang & 89 \\
+	  Tony (Di Sen) Lu & 40.5 \\
     \hline
 \end{tabular}
 
